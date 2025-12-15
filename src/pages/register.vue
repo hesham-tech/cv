@@ -139,21 +139,6 @@ function register() {
       errorForme.value = e.response.data.errors;
       userStore.loadengApi = false;
       console.log(e.response.data);
-      // if (e.response.data.errors.username) {
-      //   console.log('errors.username');
-
-      //   if (e.response.data.errors.username[0] === 'The username has already been taken.') {
-      //     console.log(".errors.username[0] === 'The user'");
-      //     usernameAlready.value = true;
-      //     notifyError('اسم المستخدم غير متاح استخدامة');
-      //   } else {
-      //     notifyError(e.response.data.message);
-      //   }
-      // } else {
-      //   console.log('else');
-
-      //   notifyError(e.response.data.message);
-      // }
     });
 }
 </script>

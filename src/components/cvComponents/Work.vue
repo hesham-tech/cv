@@ -1,79 +1,119 @@
 <template>
-  <!-- Dialog لعرض تفاصيل المشروع -->
-  <v-dialog v-model="projectDialog" :fullscreen="xs" max-width="900">
-    <v-card class="w-100 text-center">
-      <v-icon @click="projectDialog = false" class="icon-close" size="40" color="red" icon="mdi-close"></v-icon>
-      <v-row>
-        <v-col cols="12">
-          <h3 class="text-h3 mt-10">{{ item.title[lang] }}</h3>
-          <hr class="mx-auto w-75" />
-        </v-col>
-        <v-col cols="12">
-          <p>{{ item.description[lang] }}</p>
-        </v-col>
-        <v-col cols="12">
-          <a :href="item.url">
-            <v-btn color="primary">
-              {{ lang === 'en' ? 'Live Preview' : 'معاينة حية' }}
-              <v-icon icon="mdi-web" end></v-icon>
-            </v-btn>
-          </a>
-        </v-col>
-        <v-col cols="12">
-          <p>يمكنك النقر علي اي صورة لعرضها بشكل واضح</p>
-          <div class="box-imag">
-            <img v-for="(image, index) in item.photos" :key="index" :src="image.path" alt="Image" @click="openCarousel(index)" />
-          </div>
-        </v-col>
-      </v-row>
-    </v-card>
-  </v-dialog>
-
-  <!-- Dialog لعرض الصور باستخدام Carousel -->
-  <v-dialog v-model="carouselDialog" :fullscreen="xs" max-width="900">
-    <v-card>
-      <v-icon @click="carouselDialog = false" class="icon-close" size="40" color="red" icon="mdi-close"></v-icon>
-      <v-carousel progress="primary" height="100vh" v-model="currentImageIndex">
-        <template v-slot:prev="{ props }">
-          <v-btn color="success" variant="elevated" @click="props.onClick" icon>
-            <v-icon size="40" icon="mdi-chevron-left"></v-icon>
-          </v-btn>
-        </template>
-        <template v-slot:next="{ props }">
-          <v-btn color="info" variant="elevated" @click="props.onClick" icon>
-            <v-icon size="40" icon="mdi-chevron-right"></v-icon>
-          </v-btn>
-        </template>
-        <v-carousel-item class="carousel-imag" v-for="(image, index) in item.photos" :key="index" :src="image.path"></v-carousel-item>
-      </v-carousel>
-    </v-card>
-  </v-dialog>
-
-  <!-- عرض المشاريع -->
-
-  <V-card class="w-100 pa-4 my-4">
-    <div class="title-section">
-      <h2 v-if="userStore.userAll.user.theme?.hero?.sectionTitle.enabled" :style="userStore.userAll.user.theme?.hero?.sectionTitle.style">
-        {{ lang == 'en' ? 'Work' : ' الاعمال ' }}
-      </h2>
-      <div class="top"></div>
-      <div class="center"></div>
-      <div class="bottom"></div>
+  <v-container class="py-12">
+    <!-- Section Title -->
+    <div class="text-center mb-12 animate__animated animate__fadeInUp">
+       <h2 
+         v-if="userStore.userAll.user.theme?.hero?.sectionTitle.enabled" 
+         :style="userStore.userAll.user.theme?.hero?.sectionTitle.style"
+         class="text-h4 font-weight-bold text-primary mb-2 text-uppercase"
+         style="letter-spacing: 2px;"
+       >
+         {{ lang == 'en' ? 'My Portfolio' : 'أعمالي' }}
+       </h2>
+       <v-divider class="mx-auto border-opacity-100" color="secondary" length="60" thickness="4"></v-divider>
     </div>
-    <v-row justify="center" v-if="userStore.userAll.projects">
-      <v-col v-for="(work, index) in userStore.userAll.projects" :key="index" cols="12" md="6" lg="4">
-        <v-card class="text-center pa-1 mx-auto" max-width="344">
-          <div class="image-container">
-            <v-img class="opacity-70" :src="work.photos[0].path" height="200px" cover></v-img>
-            <div class="overlay-icon">
-              <v-icon @click="showProjectDetails(work)" size="30" color="info" icon="mdi-open-in-new"></v-icon>
-            </div>
-          </div>
-          <v-card-title>{{ work.title[lang] }}</v-card-title>
-        </v-card>
+
+    <!-- Projects Grid -->
+    <v-row v-if="userStore.userAll.projects">
+      <v-col 
+        v-for="(work, index) in userStore.userAll.projects" 
+        :key="index" 
+        cols="12" 
+        md="4"
+      >
+        <v-hover v-slot="{ isHovering, props }">
+           <v-card 
+             v-bind="props"
+             class="rounded-lg overflow-hidden cursor-pointer" 
+             elevation="4"
+             @click="showProjectDetails(work)"
+           >
+              <v-img 
+                :src="work.photos[0]?.path" 
+                height="240" 
+                cover
+                class="transition-swing"
+                :class="{ 'zoom-effect': isHovering }"
+              >
+                 <v-overlay
+                   :model-value="isHovering"
+                   contained
+                   scrim="primary"
+                   class="align-center justify-center"
+                 >
+                    <v-btn variant="flat" color="secondary" icon="mdi-magnify-plus-outline"></v-btn>
+                 </v-overlay>
+              </v-img>
+
+              <div class="pa-4 bg-surface">
+                 <h3 class="text-h6 font-weight-bold text-truncate">{{ work.title[lang] }}</h3>
+              </div>
+           </v-card>
+        </v-hover>
       </v-col>
     </v-row>
-  </V-card>
+
+    <!-- Details Dialog -->
+    <v-dialog v-model="projectDialog" :fullscreen="xs" max-width="1000" transition="dialog-bottom-transition">
+      <v-card class="rounded-xl overflow-hidden">
+        <v-toolbar color="surface" elevation="1">
+           <v-btn icon="mdi-close" @click="projectDialog = false"></v-btn>
+           <v-toolbar-title class="font-weight-bold text-h6">{{ item?.title[lang] }}</v-toolbar-title>
+           <v-spacer></v-spacer>
+           <v-btn 
+             v-if="item?.url" 
+             :href="item.url" 
+             target="_blank" 
+             color="primary" 
+             variant="tonal"
+             prepend-icon="mdi-open-in-new"
+           >
+             {{ lang === 'en' ? 'Live Preview' : 'معاينة' }}
+           </v-btn>
+        </v-toolbar>
+
+        <v-card-text class="pa-6">
+           <p class="text-body-1 text-medium-emphasis mb-6">
+             {{ item?.description[lang] }}
+           </p>
+
+           <!-- Gallery Grid -->
+           <v-row v-if="item?.photos?.length">
+              <v-col v-for="(photo, idx) in item.photos" :key="idx" cols="12" sm="6" md="4">
+                 <v-img 
+                   :src="photo.path" 
+                   aspect-ratio="1.5" 
+                   cover 
+                   class="rounded-lg cursor-pointer elevation-2 hover-scale"
+                   @click="openCarousel(idx)"
+                 ></v-img>
+              </v-col>
+           </v-row>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+
+    <!-- Fullscreen Carousel -->
+    <v-dialog v-model="carouselDialog" fullscreen>
+      <v-card color="black" class="d-flex flex-column">
+         <v-toolbar color="transparent" theme="dark" absolute>
+            <v-spacer></v-spacer>
+            <v-btn icon="mdi-close" @click="carouselDialog = false"></v-btn>
+         </v-toolbar>
+         
+         <div class="flex-grow-1 d-flex align-center">
+            <v-carousel v-model="currentImageIndex" hide-delimiters height="100%">
+               <v-carousel-item 
+                  v-for="(photo, i) in item?.photos" 
+                  :key="i"
+                  :src="photo.path"
+               ></v-carousel-item>
+            </v-carousel>
+         </div>
+      </v-card>
+    </v-dialog>
+
+  </v-container>
 </template>
 
 <script setup>
@@ -82,27 +122,21 @@ import { useRoute } from 'vue-router';
 import { useDisplay } from 'vuetify';
 import { useUserStore } from '@/stores/user';
 
-// تحديد اللغة من المسار
 const route = useRoute();
 const lang = route.params.lang;
+const { xs } = useDisplay();
+const userStore = useUserStore();
 
-// المتغيرات للتحكم بالـ Dialog
 const projectDialog = ref(false); 
 const carouselDialog = ref(false); 
 const currentImageIndex = ref(0); 
 const item = ref(null); 
 
-// جلب بيانات المستخدم
-const { xs } = useDisplay();
-const userStore = useUserStore();
-
-// دالة لعرض تفاصيل المشروع
 const showProjectDetails = project => {
   item.value = project;
   projectDialog.value = true;
 };
 
-// دالة لفتح الـ Carousel عند الضغط على صورة داخل تفاصيل المشروع
 const openCarousel = index => {
   currentImageIndex.value = index;
   carouselDialog.value = true;
@@ -110,63 +144,13 @@ const openCarousel = index => {
 </script>
 
 <style scoped>
-.box-imag {
-  column-count: 1;
-  column-gap: 5px;
-  border-radius: 0px;
-  padding: 5px;
+.zoom-effect {
+   transform: scale(1.1);
 }
-.box-imag img {
-  position: relative;
-  width: 100%;
-  height: auto;
-  display: block;
-  border: none;
-  background-color: #546e7a;
-  border-radius: unset;
-  margin-bottom: 5px;
-  padding: 7px;
+.hover-scale {
+   transition: transform 0.2s;
 }
-@media (min-width: 30rem) {
-  .box-imag {
-    column-count: 2;
-  }
-}
-@media (min-width: 48rem) {
-  .box-imag {
-    column-count: 3;
-  }
-}
-@media (min-width: 64rem) {
-  .box-imag {
-    column-count: 4;
-  }
-}
-
-.image-container {
-  position: relative;
-}
-
-.overlay-icon {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 40px;
-  color: white;
-}
-.icon-close {
-  cursor: pointer;
-  background-color: white;
-  position: fixed;
-  border-radius: 50%;
-  top: 10px;
-  right: 25px;
-  z-index: 100;
-}
-.carousel-imag {
-  height: 100%;
-  width: auto;
-  background-color: #0000000c;
+.hover-scale:hover {
+   transform: scale(1.02);
 }
 </style>

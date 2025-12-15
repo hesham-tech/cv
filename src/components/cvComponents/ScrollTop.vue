@@ -1,31 +1,30 @@
 <template>
-  <div>
-    <div
-      :style="lang === 'en' ? { right: '20px' } : { left: '20px' }"
-      class="animate__animated animate__wobble scroll-button"
-      v-show="showButton"
-      @click="scrollToTop"
-    >
-      <span class="mdi mdi-arrow-up-bold-box-outline"></span>
-    </div>
-  </div>
+  <v-fab
+    v-show="showButton"
+    icon="mdi-arrow-up"
+    color="secondary"
+    location="bottom end"
+    size="large"
+    position="fixed"
+    class="mb-4 me-4 animate__animated animate__fadeInUp"
+    @click="scrollToTop"
+    elevation="4"
+    app
+  ></v-fab>
 </template>
+
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
-import { useRoute } from 'vue-router';
-const route = useRoute();
-const lang = route.params.lang;
+
 const showButton = ref(false);
-let lastScrollTop = 0;
 
 const handleScroll = () => {
-  const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
-  if (currentScrollTop > lastScrollTop || currentScrollTop < 300) {
-    showButton.value = false;
-  } else {
-    showButton.value = true;
-  }
-  lastScrollTop = currentScrollTop <= 0 ? 0 : currentScrollTop;
+    // Show button when page is scrolled down 300px
+    if (window.scrollY > 300) {
+        showButton.value = true;
+    } else {
+        showButton.value = false;
+    }
 };
 
 const scrollToTop = () => {
@@ -40,17 +39,3 @@ onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll);
 });
 </script>
-<style>
-.scroll-button {
-  position: fixed;
-  bottom: 20px;
-  font-size: 40px;
-  display: block;
-  color: #007bff;
-  border: none;
-  cursor: pointer;
-  display: block;
-  transition: opacity 1s ease;
-  z-index: 100;
-}
-</style>

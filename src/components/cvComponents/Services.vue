@@ -1,78 +1,115 @@
 <template>
-  <div class="h-narrow-content">
-    <div class="row">
-      <div class="col-md-6 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">
-        <span class="heading-meta">What I do?</span>
-        <h2 class="h-heading">Here are some of my expertise</h2>
-      </div>
+  <v-container class="py-12">
+    <!-- Section Title -->
+    <div class="text-center mb-12 animate__animated animate__fadeInUp">
+       <h2 
+         v-if="userStore.userAll.user.theme?.hero?.sectionTitle.enabled" 
+         :style="userStore.userAll.user.theme?.hero?.sectionTitle.style"
+         class="text-h4 font-weight-bold text-primary mb-2 text-uppercase"
+         style="letter-spacing: 2px;"
+       >
+         {{ lang == 'en' ? 'My Expertise' : 'خدماتي' }}
+       </h2>
+       <v-divider class="mx-auto border-opacity-100" color="secondary" length="60" thickness="4"></v-divider>
     </div>
-    <div class="row row-pt-md">
-      <div class="col-md-4 text-center animate-box">
-        <div class="services color-1">
-          <span class="icon">
-            <i class="icon-bulb"></i>
-          </span>
-          <div class="desc">
-            <h3>Innovative Ideas</h3>
-            <p>Separated they live in Bookmarksgrove right at the coast of the Semantics</p>
+
+    <v-row>
+      <!-- Innovative Ideas -->
+      <v-col cols="12" sm="6" md="4">
+        <v-card class="h-100 pa-6 text-center rounded-xl hover-card" elevation="2">
+          <div class="mb-4 d-inline-block pa-4 bg-primary-lighten-5 rounded-circle">
+             <v-icon icon="mdi-lightbulb-on-outline" size="48" color="primary"></v-icon>
           </div>
-        </div>
-      </div>
-      <div class="col-md-4 text-center animate-box">
-        <div class="services color-2">
-          <span class="icon">
-            <i class="icon-data"></i>
-          </span>
-          <div class="desc">
-            <h3>Software</h3>
-            <p>Separated they live in Bookmarksgrove right at the coast of the Semantics</p>
+          <h3 class="text-h6 font-weight-bold mb-2">Innovative Ideas</h3>
+          <p class="text-body-2 text-medium-emphasis">
+            Creative solutions tailored to unique business challenges and goals.
+          </p>
+        </v-card>
+      </v-col>
+
+      <!-- Software -->
+      <v-col cols="12" sm="6" md="4">
+        <v-card class="h-100 pa-6 text-center rounded-xl hover-card" elevation="2">
+          <div class="mb-4 d-inline-block pa-4 bg-primary-lighten-5 rounded-circle">
+             <v-icon icon="mdi-code-braces" size="48" color="secondary"></v-icon>
           </div>
-        </div>
-      </div>
-      <div class="col-md-4 text-center animate-box">
-        <div class="services color-3">
-          <span class="icon">
-            <i class="icon-phone3"></i>
-          </span>
-          <div class="desc">
-            <h3>Application</h3>
-            <p>Separated they live in Bookmarksgrove right at the coast of the Semantics</p>
+          <h3 class="text-h6 font-weight-bold mb-2">Software Development</h3>
+          <p class="text-body-2 text-medium-emphasis">
+            Building robust and scalable software applications for various platforms.
+          </p>
+        </v-card>
+      </v-col>
+
+      <!-- Application -->
+      <v-col cols="12" sm="6" md="4">
+        <v-card class="h-100 pa-6 text-center rounded-xl hover-card" elevation="2">
+           <div class="mb-4 d-inline-block pa-4 bg-primary-lighten-5 rounded-circle">
+             <v-icon icon="mdi-cellphone-link" size="48" color="info"></v-icon>
           </div>
-        </div>
-      </div>
-      <div class="col-md-4 text-center animate-box">
-        <div class="services color-4">
-          <span class="icon">
-            <i class="icon-layers2"></i>
-          </span>
-          <div class="desc">
-            <h3>Graphic Design</h3>
-            <p>Separated they live in Bookmarksgrove right at the coast of the Semantics</p>
+          <h3 class="text-h6 font-weight-bold mb-2">Mobile Apps</h3>
+          <p class="text-body-2 text-medium-emphasis">
+             Developing intuitive and engaging mobile applications for iOS and Android.
+          </p>
+        </v-card>
+      </v-col>
+
+      <!-- Graphic Design -->
+      <v-col cols="12" sm="6" md="4">
+        <v-card class="h-100 pa-6 text-center rounded-xl hover-card" elevation="2">
+           <div class="mb-4 d-inline-block pa-4 bg-primary-lighten-5 rounded-circle">
+             <v-icon icon="mdi-palette-outline" size="48" color="warning"></v-icon>
           </div>
-        </div>
-      </div>
-      <div class="col-md-4 text-center animate-box">
-        <div class="services color-5">
-          <span class="icon">
-            <i class="icon-data"></i>
-          </span>
-          <div class="desc">
-            <h3>Software</h3>
-            <p>Separated they live in Bookmarksgrove right at the coast of the Semantics</p>
+           <h3 class="text-h6 font-weight-bold mb-2">Graphic Design</h3>
+          <p class="text-body-2 text-medium-emphasis">
+             Crafting visually stunning designs that communicate your brand message.
+          </p>
+        </v-card>
+      </v-col>
+
+       <!-- Data Analysis (Reusing Software slot for variety if needed, or keeping generic) -->
+      <v-col cols="12" sm="6" md="4">
+         <v-card class="h-100 pa-6 text-center rounded-xl hover-card" elevation="2">
+           <div class="mb-4 d-inline-block pa-4 bg-primary-lighten-5 rounded-circle">
+             <v-icon icon="mdi-database-search-outline" size="48" color="success"></v-icon>
           </div>
-        </div>
-      </div>
-      <div class="col-md-4 text-center animate-box">
-        <div class="services color-6">
-          <span class="icon">
-            <i class="icon-phone3"></i>
-          </span>
-          <div class="desc">
-            <h3>Application</h3>
-            <p>Separated they live in Bookmarksgrove right at the coast of the Semantics</p>
+          <h3 class="text-h6 font-weight-bold mb-2">Data Analysis</h3>
+          <p class="text-body-2 text-medium-emphasis">
+             Turning complex data into actionable insights for better decision making.
+          </p>
+        </v-card>
+      </v-col>
+
+       <!-- Support -->
+      <v-col cols="12" sm="6" md="4">
+         <v-card class="h-100 pa-6 text-center rounded-xl hover-card" elevation="2">
+           <div class="mb-4 d-inline-block pa-4 bg-primary-lighten-5 rounded-circle">
+             <v-icon icon="mdi-headset" size="48" color="error"></v-icon>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
+          <h3 class="text-h6 font-weight-bold mb-2">Technical Support</h3>
+          <p class="text-body-2 text-medium-emphasis">
+             Providing ongoing support and maintenance to ensure system stability.
+          </p>
+        </v-card>
+      </v-col>
+
+    </v-row>
+  </v-container>
 </template>
+
+<script setup>
+import { useUserStore } from '@/stores/user';
+import { useRoute } from 'vue-router';
+const route = useRoute();
+const userStore = useUserStore();
+const lang = route.params.lang;
+</script>
+
+<style scoped>
+.hover-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.hover-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}
+</style>

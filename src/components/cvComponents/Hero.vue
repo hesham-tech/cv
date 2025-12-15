@@ -1,285 +1,211 @@
 <template>
-  <v-carousel
-    v-if="userStore.userAll.user"
-    class="hero-box"
-    height="100vh"
-    style="background-color: black"
-    cycle
-    :show-arrows="false"
-    :hide-delimiter-background="userStore.userAll.user.hero.length <= 1"
-    :hide-delimiters="userStore.userAll.user.hero.length <= 1"
-  >
-    <v-carousel-item v-for="(photo, i) in userStore.userAll.user.hero" :key="i">
-      <v-img style="background-attachment: fixed" :src="photo.path" height="100%" cover v-if="userStore.userAll.user.hero"> </v-img>
-    </v-carousel-item>
-    <div class="hero-text d-flex flex-column fill-height justify-center align-center">
-      <h1 v-if="userStore.userAll.user.theme?.hero?.mainTitle.enabled" :style="userStore.userAll.user.theme?.hero?.mainTitle.style">
-        {{
-          `${lang === 'en' ? 'Hello, I am' : ' مرحبا انا ,'}  ${userStore.userAll.user.first_name[lang] || ' '}  ${
-            userStore.userAll.user.last_name[lang] || ' '
-          } `
-        }}
-      </h1>
-      <p v-if="userStore.userAll.user.theme?.hero.subTitle.enabled" :style="userStore.userAll.user.theme?.hero.subTitle.style">
-        {{ displayedposition }}
-      </p>
-      <pre v-if="userStore.userAll.user.theme?.hero.paragraph.enabled" :style="userStore.userAll.user.theme?.hero.paragraph.style" class="bio">{{
-        lang === 'en' ? userStore.userAll.user.bio_en : userStore.userAll.user.bio_ar
-      }}</pre>
+  <div class="hero-wrapper position-relative" style="height: 100vh;">
+      <v-carousel
+        v-if="userStore.userAll.user"
+        height="100%"
+        hide-delimiters
+        :show-arrows="false"
+        cycle
+        :interval="6000"
+      >
+        <v-carousel-item
+          v-for="(photo, i) in userStore.userAll.user.hero"
+          :key="i"
+          :src="photo.path"
+          cover
+        >
+          <div class="d-flex fill-height bg-gradient-overlay"></div>
+        </v-carousel-item>
+      </v-carousel>
 
-      <div class="cta-buttons">
-        <a
-          v-if="userStore.userAll.user.theme?.hero.buttonWork?.enabled"
-          :style="userStore.userAll.user.theme?.hero.buttonWork.style"
-          href="#h-work"
-          class="cta-primary"
-          >{{ lang === 'en' ? 'View My Work' : ' مشاهدة أعمالي ' }}</a
+      <!-- Content Overlay -->
+      <div class="hero-content d-flex flex-column justify-center align-center text-center">
+        
+        <!-- Main Title -->
+        <h1 
+          v-if="userStore.userAll.user.theme?.hero?.mainTitle.enabled" 
+          class="text-h3 text-md-h2 text-lg-h1 font-weight-bold text-white mb-4 animate__animated animate__fadeInDown"
+          style="text-shadow: 2px 2px 8px rgba(0,0,0,0.5);"
         >
-        <a
-          v-if="userStore.userAll.user.theme?.hero.buttonCv?.enabled"
-          :style="userStore.userAll.user.theme?.hero.buttonCv.style"
-          class="cta-secondary"
-          >{{ lang === 'en' ? 'Download Resume' : ' تحميل السيرة الذاتية ' }}</a
+          {{ lang === 'en' ? 'Hello, I am' : 'مرحبا، أنا' }}
+          <span class="text-secondary">{{ userStore.userAll.user.first_name[lang] }}</span>
+        </h1>
+
+        <!-- Sub Title / Position (Typing Effect) -->
+        <div 
+           v-if="userStore.userAll.user.theme?.hero.subTitle.enabled"
+           class="text-h5 text-md-h4 text-grey-lighten-1 mb-6 font-weight-light"
+           style="min-height: 1.5em;"
         >
-      </div>
-      <div v-if="userStore.userAll.user.theme.socials?.hero.enabled" class="box-socials">
-        <div v-for="(social, i) in userStore.userAll.socials" :key="i">
-          <a :href="social.url" target="_blank">
-            <v-icon style="font-size: 40px" :color="social.icon.color" :icon="social.icon.icon"></v-icon>
-          </a>
+           {{ displayedposition }}<span class="cursor-blink">|</span>
         </div>
+
+        <!-- Bio Paragraph -->
+        <p 
+          v-if="userStore.userAll.user.theme?.hero.paragraph.enabled"
+          class="text-body-1 text-md-h6 text-grey-lighten-2 mb-8 mx-auto px-4"
+          style="max-width: 800px; line-height: 1.8;"
+        >
+          {{ lang === 'en' ? userStore.userAll.user.bio_en : userStore.userAll.user.bio_ar }}
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="d-flex gap-4 flex-wrap justify-center animate__animated animate__fadeInUp animate__delay-1s">
+            <v-btn
+              v-if="userStore.userAll.user.theme?.hero.buttonWork?.enabled"
+              href="#h-work"
+              color="primary"
+              size="x-large"
+              rounded="pill"
+              elevation="4"
+              class="text-capitalize px-8"
+              prepend-icon="mdi-briefcase-outline"
+            >
+               {{ lang === 'en' ? 'View Work' : 'أعمالي' }}
+            </v-btn>
+
+            <v-btn
+              v-if="userStore.userAll.user.theme?.hero.buttonCv?.enabled"
+              color="white"
+              variant="outlined"
+              size="x-large"
+              rounded="pill"
+              class="text-capitalize px-8"
+              prepend-icon="mdi-download"
+            >
+               {{ lang === 'en' ? 'Resume' : 'السيرة الذاتية' }}
+            </v-btn>
+        </div>
+
+        <!-- Socials -->
+        <div v-if="userStore.userAll.user.theme.socials?.hero.enabled" class="d-flex gap-2 mt-8">
+            <v-btn
+              v-for="(social, i) in userStore.userAll.socials" 
+              :key="i"
+              :href="social.url"
+              target="_blank"
+              icon
+              variant="text"
+              color="white"
+            >
+                <v-icon size="large" :icon="social.icon.icon"></v-icon>
+            </v-btn>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div 
+          v-show="showscrollIndicator" 
+          class="scroll-indicator position-absolute bottom-0 mb-8 animate__animated animate__fadeIn animate__delay-2s"
+          @click="scrollToAbout"
+          style="cursor: pointer"
+        >
+            <div class="d-flex flex-column align-center mouse-scroll">
+                <span class="text-caption text-uppercase text-grey-lighten-2 mb-2" style="letter-spacing: 2px;">Scroll</span>
+                <v-icon icon="mdi-chevron-down" color="secondary" class="animate-bounce" size="large"></v-icon>
+            </div>
+        </div>
+
       </div>
-      <div v-show="showscrollIndicator" class="scroll-indicator">
-        <div class="chevron"></div>
-        <div class="chevron"></div>
-        <div class="chevron"></div>
-        <span class="scroll-text">{{ lang === 'en' ? 'Scroll Up' : 'مرر للاعلي' }}</span>
-      </div>
-    </div>
-  </v-carousel>
+  </div>
 </template>
+
 <script setup>
 import { useUserStore } from '@/stores/user';
 import { onMounted, ref, onUnmounted } from 'vue';
 import { useRoute } from 'vue-router';
+
 const route = useRoute();
 const userStore = useUserStore();
 const lang = route.params.lang;
 const position = ref(userStore.userAll.user.position[lang]);
-const speed = 200;
+const speed = 100;
 const displayedposition = ref('');
+const showscrollIndicator = ref(true);
+
+// Typing Effect
+let typingTimeout;
 function type() {
   let i = 0;
+  displayedposition.value = ''; // Reset
+  
   function typeChar() {
-    if (position.value) {
-      if (i < position.value.length) {
-        displayedposition.value += position.value.charAt(i);
-        i++;
-        setTimeout(typeChar, speed);
-      } else {
-        // الانتظار قليلاً قبل إعادة الكتابة
-        setTimeout(() => {
-          displayedposition.value = '';
-          type();
-        }, 1000);
-      }
+    if (position.value && i < position.value.length) {
+      displayedposition.value += position.value.charAt(i);
+      i++;
+      typingTimeout = setTimeout(typeChar, speed);
+    } else {
+        // Loop
+        typingTimeout = setTimeout(() => {
+            type();
+        }, 3000);
     }
   }
   typeChar();
 }
-const showscrollIndicator = ref(true);
 
 const handleScroll = () => {
-  const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
-  if (currentScrollTop > 100) {
-    showscrollIndicator.value = false;
-  } else {
-    showscrollIndicator.value = true;
-  }
+  showscrollIndicator.value = window.pageYOffset < 100;
 };
+
+const scrollToAbout = () => {
+    const aboutSection = document.getElementById('h-about');
+    if(aboutSection) aboutSection.scrollIntoView({ behavior: 'smooth' });
+}
+
 onMounted(() => {
   window.addEventListener('scroll', handleScroll);
   type();
 });
+
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll);
+  if(typingTimeout) clearTimeout(typingTimeout);
 });
 </script>
-<style lang="scss">
-$primary-color: #3498db;
-$secondary-color: #2c3e50;
-$text-color: #ffffff;
-$transition-speed: 0.3s;
-.hero-box {
-  position: relative;
-  .hero-text {
-    padding: 5%;
-    color: white;
-    background-color: rgba(0, 0, 0, 0.7);
+
+<style lang="scss" scoped>
+.hero-wrapper {
+    overflow: hidden;
+}
+
+.bg-gradient-overlay {
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.4) 0%,
+        rgba(0, 0, 0, 0.7) 60%,
+        rgba(0, 0, 0, 0.9) 100%
+    );
+}
+
+.hero-content {
     position: absolute;
     inset: 0;
-    h3 {
-      font-size: 30px;
-    }
-    h1 {
-      font-size: 30px;
-    }
-    .bio {
-      // font-size: 20px;
-      letter-spacing: 1px;
-    }
-    p {
-      font-size: 25px;
-      padding: 15px 0;
-    }
-    & > * {
-      color: white;
-    }
-  }
-  .cta-buttons {
-    margin: 40px 0;
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-
-    a {
-      width: fit-content;
-      padding: 0.8rem 15px;
-      border-radius: 20px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: all $transition-speed ease;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-
-      &.cta-primary {
-        background-color: $primary-color;
-        color: $text-color;
-        border: 2px solid $primary-color;
-        display: inline-block;
-
-        &:hover {
-          background-color: transparent;
-          color: $primary-color;
-        }
-      }
-
-      &.cta-secondary {
-        background-color: transparent;
-        color: $text-color;
-        border: 2px solid $text-color;
-        display: inline-block;
-
-        &:hover {
-          background-color: $text-color;
-          color: $secondary-color;
-        }
-      }
-    }
-  }
+    z-index: 2;
+    padding: 2rem;
 }
 
-$chevron-size: 28px;
-$chevron-height: 8px;
-$chevron-color: #fff;
-$scroll-text-color: rgba(255, 255, 255, 0.7);
-
-.scroll-indicator {
-  position: absolute;
-  bottom: 45px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  z-index: 3;
+.cursor-blink {
+    animation: blink 1s step-end infinite;
 }
 
-.chevron {
-  width: $chevron-size;
-  height: $chevron-height;
-  opacity: 0;
-  transform: scale3d(0.5, 0.5, 0.5);
-  animation: move-up 3s ease-out infinite;
-
-  &:before,
-  &:after {
-    content: '';
-    position: absolute;
-    bottom: 0; // تعديل من 'top' إلى 'bottom' لتغيير اتجاه الأسهم
-    height: 100%;
-    width: 51%;
-    background: $chevron-color;
-  }
-
-  &:before {
-    left: 0;
-    transform: skew(0deg, -30deg); // عكس الميل لتحويل الشكل إلى الأعلى
-  }
-
-  &:after {
-    right: 0;
-    transform: skew(0deg, 30deg); // عكس الميل لتحويل الشكل إلى الأعلى
-  }
-
-  &:first-child {
-    animation-delay: 1s;
-  }
-
-  &:nth-child(2) {
-    animation-delay: 2s;
-  }
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
 }
 
-.scroll-text {
-  color: $scroll-text-color;
-  font-size: 12px;
-  margin-top: 10px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+.animate-bounce {
+    animation: bounce 2s infinite;
 }
 
-@keyframes move-up {
-  0% {
-    opacity: 0;
-    transform: translateY(55px) scale3d(0.5, 0.5, 0.5);
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
   }
-  25% {
-    opacity: 1;
+  40% {
+    transform: translateY(-10px);
   }
-  67% {
-    opacity: 1;
-    transform: translateY(-30px);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-55px) scale3d(0.5, 0.5, 0.5);
-  }
-}
-
-// لضمان أن الأيقونة تظهر فوق تأثير التدرج
-.hero-box::after {
-  z-index: 1;
-}
-
-// تعديل z-index للنص الرئيسي
-.hero-text {
-  z-index: 2;
-}
-
-// Responsive adjustments
-@media (max-width: 768px) {
-  .scroll-indicator {
-    bottom: 10vh;
-  }
-
-  .chevron {
-    width: $chevron-size * 0.71;
-    height: $chevron-height * 0.75;
-  }
-
-  .scroll-text {
-    font-size: 10px;
+  60% {
+    transform: translateY(-5px);
   }
 }
 </style>

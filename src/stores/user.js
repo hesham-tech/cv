@@ -81,7 +81,13 @@ export const useUserStore = defineStore('user', {
       return new Promise((resolve, reject) => {
         if (token) {
           axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-          const userId = localStorage.user ? JSON.parse(localStorage.user).id : 0;
+          let userId = 0;
+          try {
+            if (localStorage.user && localStorage.user !== 'undefined') {
+              userId = JSON.parse(localStorage.user).id;
+            }
+          } catch (e) { console.error('Error parsing user', e); }
+
           axios
             .get(`users/${userId}`)
             .then(res => {
@@ -134,7 +140,13 @@ export const useUserStore = defineStore('user', {
       });
     },
     fetchUser() {
-      const userId = localStorage.user ? JSON.parse(localStorage.user).id : 0;
+      let userId = 0;
+      try {
+        if (localStorage.user && localStorage.user !== 'undefined') {
+          userId = JSON.parse(localStorage.user).id;
+        }
+      } catch (e) { console.error('Error parsing user', e); }
+
       return new Promise((resolve, reject) => {
         axios
           .get(`users/${userId}`)

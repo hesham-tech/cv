@@ -1,8 +1,7 @@
 import { registerPlugins } from '@/plugins';
 
 import App from './App.vue';
-import jQuery from 'jquery';
-window.$ = jQuery;
+
 import 'animate.css';
 import axios from 'axios';
 // import '@/Service/apiService';
