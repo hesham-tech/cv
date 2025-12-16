@@ -4,10 +4,20 @@ import { setupLayouts } from 'virtual:generated-layouts';
 // Create the router
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  extendRoutes: setupLayouts,
+  extendRoutes: (routes) => {
+    const layouts = setupLayouts(routes);
+    layouts.push({
+      path: '/:lang/:id/:section*',
+      name: 'cv-page-manual',
+      component: () => import('@/components/CVPage.vue'),
+      meta: { layout: 'pure' },
+    });
+    return layouts;
+  },
 });
 
 // Fetch track names and add them in meta
+console.log('DEBUG: Generated Routes:', router.getRoutes());
 router.getRoutes().forEach(route => {
   // console.log('path', route.path);
 
