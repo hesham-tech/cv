@@ -336,11 +336,14 @@ meta:
 //   }
 // }
 #h-aside {
-  position: absolute;
+  position: fixed !important;
   top: 0;
   height: 100vh;
+  width: 270px;
+  max-width: 270px;
   background-color: #f0f0f0;
   transition: opacity 0.5s ease, width 1s ease;
+  z-index: 1001;
 }
 
 .btn-toggle {

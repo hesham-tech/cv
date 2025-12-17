@@ -36,25 +36,32 @@ onMounted(() => {
 });
 </script>
 <style lang="scss">
+@import '@/styles/modern-design.css';
+
 body {
   background-color: #f5f5f5;
 }
+
 .v-card-subtitle {
   white-space: normal !important;
 }
+
 * {
   border-radius: 7px;
   text-decoration: none;
 }
+
 table {
   * {
     border-radius: 0px;
   }
 }
+
 pre {
   white-space: pre-wrap;
   word-wrap: break-word;
 }
+
 .sticky-column {
   position: -webkit-sticky;
   position: sticky;
@@ -62,6 +69,7 @@ pre {
   left: 0;
   z-index: 10;
 }
+
 .text-alert {
   margin: 10px;
   padding: 5px;
@@ -71,6 +79,7 @@ pre {
   border-radius: 7px;
   background-color: rgb(116 141 128 / 43%);
 }
+
 .v-btn--size-small {
   width: 23px !important;
   height: 23px !important;
@@ -82,6 +91,7 @@ pre {
   padding-bottom: 16px;
   transition: background-color 1s ease;
 }
+
 .v-alert--density-default {
   padding: 3px !important;
 }
