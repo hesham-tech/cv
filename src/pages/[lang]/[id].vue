@@ -150,8 +150,6 @@
 
 <script setup>
 import axios from 'axios';
-import { useDisplay } from 'vuetify';
-const { xs } = useDisplay();
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { ref, onMounted, watch, computed } from 'vue';
@@ -177,7 +175,7 @@ const windowWidth = ref(window.innerWidth);
 
 // Computed property للتحقق من حجم الشاشة وتطبيق margin
 const mainMarginStyle = computed(() => {
-  if (windowWidth.value > 600) {
+  if (windowWidth.value > 800) {
     return {
       [lang === 'en' ? 'margin-left' : 'margin-right']: '270px'
     };
@@ -273,16 +271,16 @@ function funToggled() {
   }
 }
 function handleMediaChange() {
-  if (xs.value) {
-    // شاشة صغيرة (موبايل)
-    console.log('Screen size: Small');
+  if (windowWidth.value <= 800) {
+    // شاشة صغيرة (أقل من أو تساوي 800px)
+    console.log('Screen size: Small (≤800px)');
     toggled.value = false;
     isVisible.value = false;
     boxToggleeWidth.value = 'auto';
     btnToggle.value = true;
   } else {
-    // شاشة كبيرة (تابلت أو ديسكتوب)
-    console.log('Screen size: Large');
+    // شاشة كبيرة (أكبر من 800px)
+    console.log('Screen size: Large (>800px)');
     boxToggleeWidth.value = '20vw';
     asideWidth.value = '100%';
     toggled.value = true;
@@ -291,7 +289,7 @@ function handleMediaChange() {
   }
 }
 watch(
-  () => xs.value,
+  () => windowWidth.value,
   () => handleMediaChange()
 );
 
