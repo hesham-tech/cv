@@ -87,8 +87,6 @@ const lang = route.params.lang;
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/modern-design.css';
-
 .modern-services {
   padding: var(--space-8) var(--space-6);
   background: linear-gradient(180deg, transparent 0%, rgba(102, 126, 234, 0.05) 100%);

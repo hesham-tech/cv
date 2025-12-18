@@ -92,8 +92,6 @@ function funSelectedSkill(skill) {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/modern-design.css';
-
 .modern-skills {
   padding: var(--space-8) var(--space-6);
 }

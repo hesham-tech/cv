@@ -38,7 +38,7 @@
       </v-card>
     </v-dialog>
     <div id="h-page" v-if="getData">
-      <div class="container-wrap">
+      <!-- <div class=""> -->
         <div
           class="box-toggle"
           :style="{
@@ -56,7 +56,7 @@
             <AsideApp />
           </aside>
         </div>
-        <div id="h-main">
+        <div id="h-main" :style="mainMarginStyle">
           <div v-if="btnToggle" :class="{ mainOverlay: toggled }" @click="funToggled"></div>
           <section
             id="h-hero"
@@ -142,7 +142,7 @@
             </section>
           </div>
         </div>
-      </div>
+      <!-- </div> -->
       <ScrollTop />
     </div>
   </div>
@@ -154,7 +154,7 @@ import { useDisplay } from 'vuetify';
 const { xs } = useDisplay();
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, computed } from 'vue';
 import { useUserStore } from '@/stores/user';
 import { useRoute } from 'vue-router';
 const route = useRoute();
@@ -173,6 +173,18 @@ const dialogHelp = ref(false);
 const checkboxHent = ref(false);
 const dialogNoteUser = ref(false);
 const mediaQuery = window.matchMedia('(max-width: 768px)');
+const windowWidth = ref(window.innerWidth);
+
+// Computed property للتحقق من حجم الشاشة وتطبيق margin
+const mainMarginStyle = computed(() => {
+  if (windowWidth.value > 600) {
+    return {
+      [lang === 'en' ? 'margin-left' : 'margin-right']: '270px'
+    };
+  }
+  return {};
+});
+
 userStore.loadengApi = false;
 function closeDialog() {
   if (checkboxHent.value) {
@@ -183,6 +195,13 @@ function closeDialog() {
 onMounted(() => {
   userStore.loadengApi = false;
   window.addEventListener('scroll', setActiveNavItem);
+  
+  // تتبع تغيير حجم الشاشة
+  const handleResize = () => {
+    windowWidth.value = window.innerWidth;
+  };
+  window.addEventListener('resize', handleResize);
+  
   handleMediaChange(mediaQuery); // Initial check
   // mediaQuery.addEventListener('change', handleMediaChange);
   // mediaQuery.addEventListener('resize', handleMediaChange);
@@ -301,6 +320,7 @@ meta:
   flex-grow: 1;
   width: auto;
   flex: 1;
+
 }
 
 .mainOverlay {
@@ -325,16 +345,11 @@ meta:
   position: relative;
 }
 .box-toggle {
-  position: sticky;
+  position: fixed;
   top: 0;
-  height: 100vh;
-  z-index: 100;
+  z-index: 10000; // أعلى من جميع العناصر
 }
-// .container-wrap {
-//   @media screen and (min-width: 768px) {
-//     margin: 0px 10%;
-//   }
-// }
+
 #h-aside {
   position: fixed !important;
   top: 0;
@@ -343,7 +358,12 @@ meta:
   max-width: 270px;
   background-color: #f0f0f0;
   transition: opacity 0.5s ease, width 1s ease;
-  z-index: 1001;
+  z-index: 9999;
+}
+@media screen and (max-width: 768px) {
+  #h-aside {
+    overflow: hidden;
+  }
 }
 
 .btn-toggle {
@@ -353,12 +373,7 @@ meta:
   cursor: pointer;
   display: inline-block;
   color: #3498db;
-  z-index: 99;
-}
-@media screen and (max-width: 768px) {
-  #h-aside {
-    overflow: hidden;
-  }
+  z-index: 10001; // أعلى من كل شيء للتأكد أن الزر يظهر دائماً
 }
 .box-socials {
   display: flex;

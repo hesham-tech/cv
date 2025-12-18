@@ -61,8 +61,6 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/modern-design.css';
-
 .scroll-top-button {
   position: fixed;
   bottom: 30px;

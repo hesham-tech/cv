@@ -129,8 +129,6 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/modern-design.css';
-
 .modern-hero {
   position: relative;
   width: 100%;
@@ -290,13 +288,14 @@ onUnmounted(() => {
 
 .hero-btn {
   padding: var(--space-4) var(--space-6);
+  // margin: var(--space-4);
   font-size: var(--text-base);
   font-weight: var(--font-semibold);
   min-width: fit-content;
   white-space: nowrap;
   letter-spacing: 0.5px;
   box-shadow: 0 10px 30px -10px rgba(102, 126, 234, 0.5);
-  
+  display: block;
   span {
     margin-right: var(--space-2);
   }

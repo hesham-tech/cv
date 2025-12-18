@@ -1,4 +1,5 @@
 import { registerPlugins } from '@/plugins';
+import '@/utilty.js';
 
 import App from './App.vue';
 import jQuery from 'jquery';

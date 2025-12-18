@@ -36,8 +36,6 @@ onMounted(() => {
 });
 </script>
 <style lang="scss">
-@import '@/styles/modern-design.css';
-
 body {
   background-color: #f5f5f5;
 }
@@ -47,7 +45,6 @@ body {
 }
 
 * {
-  border-radius: 7px;
   text-decoration: none;
 }
 

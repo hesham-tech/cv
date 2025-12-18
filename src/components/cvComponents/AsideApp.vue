@@ -115,8 +115,6 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/modern-design.css';
-
 .modern-aside {
   width: 100%;
   height: 100vh;

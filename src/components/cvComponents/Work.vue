@@ -113,8 +113,6 @@ const openCarousel = index => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/modern-design.css';
-
 .modern-work {
   padding: var(--space-8) var(--space-6);
 }
