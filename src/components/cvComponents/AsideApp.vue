@@ -150,10 +150,9 @@ onMounted(() => {
 
 .profile-image-wrapper {
   position: relative;
-  width: 150px;
-  height: 150px;
-  margin: 0 auto ;
-  animation: float 6s ease-in-out infinite;
+  width: 100px;
+  height: 100px;
+  margin: 10px auto 0px auto;
   flex-shrink: 0;
 }
 
@@ -185,7 +184,7 @@ onMounted(() => {
   font-size: 1.75rem;
   font-weight: var(--font-bold);
   color: white;
-  margin-bottom: 0.5rem;
+  margin: 0.5rem;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
@@ -242,7 +241,7 @@ onMounted(() => {
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 1rem 1.25rem;
+  padding: 0.25rem .50rem;
   color: rgba(255, 255, 255, 0.8);
   text-decoration: none;
   font-family: var(--font-body);
@@ -256,6 +255,7 @@ onMounted(() => {
   overflow: hidden;
   position: relative;
 
+  /* الخط الجانبي للـ hover */
   &::before {
     content: '';
     position: absolute;
@@ -268,6 +268,7 @@ onMounted(() => {
     transition: transform 0.3s ease;
   }
 
+  /* حالة الـ Hover */
   &:hover {
     background: rgba(255, 255, 255, 0.15);
     color: white;
@@ -280,14 +281,57 @@ onMounted(() => {
   }
 }
 
+/* حالة الـ Active - مختلفة تماماً عن الـ Hover */
 .nav-item.active .nav-link {
-  background: rgba(255, 255, 255, 0.2);
+  background: linear-gradient(135deg, 
+    rgba(168, 237, 234, 0.25) 0%, 
+    rgba(254, 214, 227, 0.25) 100%
+  );
   color: white;
-  border-color: rgba(255, 255, 255, 0.3);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 
+    0 4px 15px rgba(168, 237, 234, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transform: translateX(0); /* لا يتحرك */
+  font-weight: var(--font-semibold); /* أثقل */
 
+  /* إخفاء الخط الجانبي في Active */
   &::before {
-    transform: scaleY(1);
+    display: none;
+  }
+
+  /* إضافة توهج خفيف */
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    background: linear-gradient(135deg, 
+      rgba(168, 237, 234, 0.1), 
+      rgba(254, 214, 227, 0.1)
+    );
+    opacity: 1;
+  }
+
+  /* الأيقونة تأخذ التدرج اللوني */
+  .nav-icon {
+    background: linear-gradient(135deg, #a8edea, #fed6e3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 2px 8px rgba(168, 237, 234, 0.4));
+  }
+
+  /* عند hover على Active */
+  &:hover {
+    transform: translateX(0); /* يبقى ثابت */
+    background: linear-gradient(135deg, 
+      rgba(168, 237, 234, 0.3) 0%, 
+      rgba(254, 214, 227, 0.3) 100%
+    );
+    box-shadow: 
+      0 6px 20px rgba(168, 237, 234, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4);
   }
 }
 
@@ -295,8 +339,8 @@ onMounted(() => {
   font-size: 1.25rem;
   flex-shrink: 0;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  transition: all 0.3s ease;
 }
-
 .nav-text {
   flex: 1;
 }

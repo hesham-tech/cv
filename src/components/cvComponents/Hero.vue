@@ -4,9 +4,16 @@
     <div class="hero-gradient-bg"></div>
 
     <!-- Image Carousel -->
-    <v-carousel v-if="userStore.userAll.user" class="hero-carousel" height="100vh" cycle :show-arrows="false"
+    <v-carousel 
+      v-if="userStore.userAll.user" 
+      class="hero-carousel" 
+      height="100vh" 
+      cycle 
+      :show-arrows="false"
       :hide-delimiter-background="userStore.userAll.user.hero.length <= 1"
-      :hide-delimiters="userStore.userAll.user.hero.length <= 1" interval="6000">
+      :hide-delimiters="userStore.userAll.user.hero.length <= 1" 
+      interval="6000"
+    >
       <v-carousel-item v-for="(photo, i) in userStore.userAll.user.hero" :key="i">
         <v-img :src="photo.path" height="100%" cover class="hero-image"></v-img>
       </v-carousel-item>
@@ -18,39 +25,57 @@
     <!-- Content -->
     <div class="hero-content">
       <div class="hero-content-inner animate-fade-in-up">
+        <!-- Greeting -->
+        <p class="hero-greeting">
+          {{ lang === 'en' ? 'Hello, I am 👋' : 'مرحباً، أنا 👋' }}
+        </p>
+
         <!-- Name -->
-        <h1 v-if="userStore.userAll.user.theme?.hero?.mainTitle.enabled" class="hero-title"
-          :style="userStore.userAll.user.theme?.hero?.mainTitle.style">
-          {{
-            `${lang === 'en' ? 'Hello, I am' : 'مرحباً، أنا'} ${userStore.userAll.user.first_name[lang] || ''} ${userStore.userAll.user.last_name[lang] || ''
-            }`
-          }}
+        <h1 
+          v-if="userStore.userAll.user.theme?.hero?.mainTitle?.enabled" 
+          class="hero-title"
+          :style="userStore.userAll.user.theme?.hero?.mainTitle?.style"
+        >
+          {{ userStore.userAll.user.last_name[lang] || '' }}
         </h1>
 
         <!-- Position with typewriter effect -->
         <div class="hero-position-wrapper">
-          <p v-if="userStore.userAll.user.theme?.hero.subTitle.enabled" class="hero-position"
-            :style="userStore.userAll.user.theme?.hero.subTitle.style">
+          <p 
+            v-if="userStore.userAll.user.theme?.hero?.subTitle?.enabled" 
+            class="hero-position"
+            :style="userStore.userAll.user.theme?.hero?.subTitle?.style"
+          >
             {{ displayedposition }}<span class="cursor-blink">|</span>
           </p>
         </div>
 
         <!-- Bio -->
-        <pre v-if="userStore.userAll.user.theme?.hero.paragraph.enabled" class="hero-bio"
-          :style="userStore.userAll.user.theme?.hero.paragraph.style">{{ lang === 'en' ? userStore.userAll.user.bio_en : userStore.userAll.user.bio_ar }}</pre>
+        <pre 
+          v-if="userStore.userAll.user.theme?.hero?.paragraph?.enabled" 
+          class="hero-bio"
+          :style="userStore.userAll.user.theme?.hero?.paragraph?.style"
+        >{{ lang === 'en' ? userStore.userAll.user.bio_en : userStore.userAll.user.bio_ar }}</pre>
 
         <!-- CTA Buttons -->
         <div class="hero-buttons">
-          <a v-if="userStore.userAll.user.theme?.hero.buttonWork?.enabled" href="#h-work"
-            class="btn-modern btn-primary hero-btn" :style="userStore.userAll.user.theme?.hero.buttonWork.style">
+          <a 
+            v-if="userStore.userAll.user.theme?.hero?.buttonWork?.enabled" 
+            href="#h-work"
+            class="btn-modern btn-primary hero-btn" 
+            :style="userStore.userAll.user.theme?.hero?.buttonWork?.style"
+          >
             <span>{{ lang === 'en' ? 'View My Work' : 'مشاهدة أعمالي' }}</span>
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M4.167 10h11.666M10 4.167L15.833 10 10 15.833" stroke="currentColor" stroke-width="2"
                 stroke-linecap="round" stroke-linejoin="round" />
             </svg>
           </a>
-          <a v-if="userStore.userAll.user.theme?.hero.buttonCv?.enabled" class="btn-modern btn-glass hero-btn"
-            :style="userStore.userAll.user.theme?.hero.buttonCv.style">
+          <a 
+            v-if="userStore.userAll.user.theme?.hero?.buttonCv?.enabled" 
+            class="btn-modern btn-glass hero-btn"
+            :style="userStore.userAll.user.theme?.hero?.buttonCv?.style"
+          >
             <span>{{ lang === 'en' ? 'Download Resume' : 'تحميل السيرة الذاتية' }}</span>
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
@@ -61,9 +86,15 @@
         </div>
 
         <!-- Social Icons -->
-        <div v-if="userStore.userAll.user.theme.socials?.hero.enabled" class="hero-socials">
-          <a v-for="(social, i) in userStore.userAll.socials" :key="i" :href="social.url" target="_blank"
-            class="social-icon">
+        <div v-if="userStore.userAll.user.theme?.socials?.hero?.enabled" class="hero-socials">
+          <a 
+            v-for="(social, i) in userStore.userAll.socials" 
+            :key="i" 
+            :href="social.url" 
+            target="_blank"
+            class="social-icon"
+            :aria-label="social.name"
+          >
             <v-icon :color="social.icon.color" :icon="social.icon.icon" size="28"></v-icon>
           </a>
         </div>
@@ -153,11 +184,9 @@ onUnmounted(() => {
   0% {
     background-position: 0% 50%;
   }
-
   50% {
     background-position: 100% 50%;
   }
-
   100% {
     background-position: 0% 50%;
   }
@@ -186,9 +215,7 @@ onUnmounted(() => {
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg,
-      rgba(0, 0, 0, 0.4) 0%,
-      rgba(0, 0, 0, 0.6) 100%);
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.6) 100%);
   backdrop-filter: blur(2px);
   z-index: 3;
 }
@@ -212,19 +239,41 @@ onUnmounted(() => {
   animation-delay: 0.2s;
 }
 
-/* Title */
-.hero-title {
-  font-family: var(--font-display);
-  font-size: clamp(2.5rem, 6vw, 5rem);
-  font-weight: var(--font-black);
-  color: white;
-  margin-bottom: 1.5rem;
-  line-height: 1.2;
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  letter-spacing: -0.02em;
+/* Greeting (صغير) */
+.hero-greeting {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-weight: var(--font-regular);
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 1rem;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  animation: fadeInDown 0.6s ease;
 }
 
-/* Position */
+/* Title (كبير وبارز) */
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 6vw, 4rem);
+  font-weight: var(--font-black);
+  color: white;
+  margin-bottom: 1rem;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  
+  /* Gradient Effect */
+  background: linear-gradient(135deg, #ffffff 0%, #a8edea 50%, #fed6e3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  
+  /* Shadow للنص */
+  filter: drop-shadow(0 4px 20px rgba(168, 237, 234, 0.3));
+  
+  animation: fadeInUp 0.8s ease 0.3s both;
+}
+
+/* Position (متوسط) */
 .hero-position-wrapper {
   margin-bottom: 2rem;
   min-height: 60px;
@@ -235,7 +284,7 @@ onUnmounted(() => {
 
 .hero-position {
   font-family: var(--font-body);
-  font-size: clamp(1.25rem, 3vw, 2rem);
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
   font-weight: var(--font-medium);
   color: rgba(255, 255, 255, 0.95);
   margin: 0;
@@ -244,6 +293,7 @@ onUnmounted(() => {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  letter-spacing: 0.3px;
 }
 
 .cursor-blink {
@@ -253,14 +303,10 @@ onUnmounted(() => {
 }
 
 @keyframes blink {
-
-  0%,
-  50% {
+  0%, 50% {
     opacity: 1;
   }
-
-  51%,
-  100% {
+  51%, 100% {
     opacity: 0;
   }
 }
@@ -280,26 +326,26 @@ onUnmounted(() => {
 /* CTA Buttons */
 .hero-buttons {
   display: flex;
-  gap: var(--space-5);
-  margin-bottom: var(--space-8);
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
   flex-wrap: wrap;
   justify-content: center;
 }
 
 .hero-btn {
-  padding: var(--space-4) var(--space-6);
-  // margin: var(--space-4);
-  font-size: var(--text-base);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  font-size: 1rem;
   font-weight: var(--font-semibold);
   min-width: fit-content;
   white-space: nowrap;
   letter-spacing: 0.5px;
-  box-shadow: 0 10px 30px -10px rgba(102, 126, 234, 0.5);
-  display: block;
-  span {
-    margin-right: var(--space-2);
-  }
-  
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+
   svg {
     flex-shrink: 0;
     transition: transform 0.3s ease;
@@ -311,7 +357,12 @@ onUnmounted(() => {
 }
 
 .btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 0 10px 30px -10px rgba(102, 126, 234, 0.5);
+
   &:hover {
+    transform: translateY(-2px);
     box-shadow: 0 15px 40px -10px rgba(102, 126, 234, 0.7);
   }
 }
@@ -392,7 +443,6 @@ onUnmounted(() => {
     opacity: 1;
     transform: translateY(0);
   }
-
   100% {
     opacity: 0;
     transform: translateY(12px);
@@ -400,12 +450,9 @@ onUnmounted(() => {
 }
 
 @keyframes float {
-
-  0%,
-  100% {
+  0%, 100% {
     transform: translate(-50%, 0);
   }
-
   50% {
     transform: translate(-50%, -10px);
   }
@@ -419,14 +466,43 @@ onUnmounted(() => {
   font-weight: var(--font-medium);
 }
 
+/* Animations */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .hero-content {
     padding: 1.5rem;
   }
 
+  .hero-greeting {
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+  }
+
   .hero-title {
-    margin-bottom: 1rem;
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
   }
 
   .hero-position-wrapper {
@@ -434,21 +510,26 @@ onUnmounted(() => {
     margin-bottom: 1.5rem;
   }
 
+  .hero-position {
+    font-size: 1.25rem;
+  }
+
   .hero-bio {
     margin-bottom: 2rem;
     font-size: 0.9rem;
   }
 
-  .hero-cta-buttons {
+  .hero-buttons {
     flex-direction: column;
     gap: 1rem;
     width: 100%;
-    margin-bottom: 2rem;
+    max-width: 300px;
+    margin: 0 auto 2rem;
   }
 
   .hero-btn {
     width: 100%;
-    max-width: 300px;
+    justify-content: center;
   }
 
   .hero-socials {
@@ -466,8 +547,12 @@ onUnmounted(() => {
 }
 
 @media (max-width: 480px) {
+  .hero-greeting {
+    font-size: 0.9rem;
+  }
+
   .hero-title {
-    font-size: 2rem;
+    font-size: 1.75rem;
   }
 
   .hero-position {
@@ -476,6 +561,11 @@ onUnmounted(() => {
 
   .hero-bio {
     font-size: 0.85rem;
+  }
+
+  .hero-btn {
+    padding: 0.875rem 1.5rem;
+    font-size: 0.95rem;
   }
 }
 </style>

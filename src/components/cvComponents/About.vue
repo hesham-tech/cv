@@ -1,6 +1,6 @@
 <template>
   <div class="modern-about">
-    <div class="about-card glass-card">
+    <div class="about-container">
       <!-- Section Title -->
       <div class="section-header">
         <h2 v-if="userStore.userAll.user.theme?.hero?.sectionTitle.enabled" class="section-title gradient-text"
@@ -64,11 +64,9 @@ const lang = route.params.lang;
   padding: var(--space-8) var(--space-6);
 }
 
-.about-card {
+.about-container {
   max-width: 900px;
   margin: 0 auto;
-  padding: var(--space-12);
-  animation: fadeInUp 0.8s ease;
 }
 
 .section-header {
@@ -88,17 +86,6 @@ const lang = route.params.lang;
   background: var(--gradient-primary);
   margin: 0 auto;
   border-radius: var(--radius-full);
-  animation: expandWidth 0.8s ease;
-}
-
-@keyframes expandWidth {
-  from {
-    width: 0;
-  }
-
-  to {
-    width: 80px;
-  }
 }
 
 .about-heading {
@@ -194,10 +181,6 @@ const lang = route.params.lang;
 @media (max-width: 768px) {
   .modern-about {
     padding: var(--space-6) var(--space-4);
-  }
-
-  .about-card {
-    padding: var(--space-8);
   }
 
   .social-link {
