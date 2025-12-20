@@ -326,15 +326,15 @@ meta:
 /* تسمح بإغلاق القائمة عند النقر عليها */
 /* تأثير blur هادئ وبسيط - Glassmorphism */
 .mainOverlay {
-  background-color: rgba(255, 255, 255, 0.05); /* شفاف جداً مع لمسة بيضاء خفيفة */
-  backdrop-filter: blur(8px); /* تأثير blur هادئ */
-  -webkit-backdrop-filter: blur(2px); /* دعم Safari */
+  background-color: rgba(255, 255, 255, 0.05); 
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(2px);
   position: fixed;
   width: 100%;
   height: 100%;
   z-index: 99;
   cursor: pointer;
-  transition: all 0.3s ease; /* انتقال سلس */
+  transition: all 0.3s ease; 
 }
 #h-main-menu {
   width: 100%;
