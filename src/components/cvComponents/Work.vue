@@ -152,6 +152,7 @@ const openCarousel = index => {
   overflow: hidden;
   padding: 0;
   transition: all var(--transition-base);
+  /* انيميشن: ظهور تدريجي لكروت الأعمال بتأخير متتالي */
   animation: fadeInUp calc(0.1s * var(--index)) ease;
 
   &:hover {

@@ -176,10 +176,16 @@ onUnmounted(() => {
   inset: 0;
   background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #4facfe);
   background-size: 400% 400%;
+  /* انيميشن: تحريك الخلفية المتدرجة بشكل مستمر */
   animation: gradientShift 15s ease infinite;
   z-index: 1;
 }
 
+/* ====================
+   انيميشن: تحريك الخلفية المتدرجة
+   الوظيفة: يغير موضع الخلفية لإنشاء تأثير حركة سلسة
+   المدة: 15 ثانية، يتكرر للأبد
+   ==================== */
 @keyframes gradientShift {
   0% {
     background-position: 0% 50%;
@@ -248,6 +254,7 @@ onUnmounted(() => {
   margin-bottom: 1rem;
   letter-spacing: 0.5px;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  /* انيميشن: ظهور من الأعلى مع تلاشي */
   animation: fadeInDown 0.6s ease;
 }
 
@@ -270,6 +277,7 @@ onUnmounted(() => {
   /* Shadow للنص */
   filter: drop-shadow(0 4px 20px rgba(168, 237, 234, 0.3));
   
+  /* انيميشن: ظهور من الأسفل مع تأخير 0.3 ثانية */
   animation: fadeInUp 0.8s ease 0.3s both;
 }
 
@@ -298,10 +306,16 @@ onUnmounted(() => {
 
 .cursor-blink {
   color: rgba(255, 255, 255, 0.9);
+  /* انيميشن: وميض الكيرسور (cursor) بشكل مستمر */
   animation: blink 1s step-end infinite;
   -webkit-text-fill-color: rgba(255, 255, 255, 0.9);
 }
 
+/* ====================
+   انيميشن: وميض الكيرسور
+   الوظيفة: يجعل الكيرسور يظهر ويختفي
+   المدة: 1 ثانية، يتكرر للأبد
+   ==================== */
 @keyframes blink {
   0%, 50% {
     opacity: 1;
@@ -416,6 +430,7 @@ onUnmounted(() => {
   flex-direction: column;
   align-items: center;
   gap: 0.75rem;
+  /* انيميشن: حركة تعويم للأعلى والأسفل */
   animation: float 3s ease-in-out infinite;
 }
 
@@ -435,9 +450,15 @@ onUnmounted(() => {
   height: 8px;
   background: rgba(255, 255, 255, 0.8);
   border-radius: 2px;
+  /* انيميشن: حركة العجلة داخل الماوس للإشارة للتمرير */
   animation: scrollWheel 2s ease-in-out infinite;
 }
 
+/* ====================
+   انيميشن: حركة عجلة الماوس
+   الوظيفة: تحرك العجلة للأسفل مع تلاشي
+   المدة: 2 ثانية، يتكرر للأبد
+   ==================== */
 @keyframes scrollWheel {
   0% {
     opacity: 1;
@@ -449,6 +470,11 @@ onUnmounted(() => {
   }
 }
 
+/* ====================
+   انيميشن: تعويم (حركة للأعلى والأسفل)
+   الوظيفة: يخلق حركة ناعمة صعوداً وهبوطاً
+   المدة: 3 ثوان، يتكرر للأبد
+   ==================== */
 @keyframes float {
   0%, 100% {
     transform: translate(-50%, 0);
@@ -467,6 +493,11 @@ onUnmounted(() => {
 }
 
 /* Animations */
+/* ====================
+   انيميشن: ظهور من الأعلى
+   الوظيفة: يجعل العنصر يظهر من الأعلى مع تلاشي
+   الاستخدام: للعنوان الترحيبي
+   ==================== */
 @keyframes fadeInDown {
   from {
     opacity: 0;
@@ -478,6 +509,11 @@ onUnmounted(() => {
   }
 }
 
+/* ====================
+   انيميشن: ظهور من الأسفل
+   الوظيفة: يجعل العنصر يظهر من الأسفل مع تلاشي
+   الاستخدام: للاسم والعناصر الرئيسية
+   ==================== */
 @keyframes fadeInUp {
   from {
     opacity: 0;

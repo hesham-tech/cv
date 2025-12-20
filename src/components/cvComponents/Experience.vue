@@ -113,6 +113,7 @@ const lang = route.params.lang;
   display: flex;
   gap: var(--space-6);
   align-items: flex-start;
+  /* انيميشن: ظهور تدريجي لعناصر الخبرات بتأخير متتالي */
   animation: fadeInUp calc(0.2s * var(--index)) ease;
 }
 
@@ -213,9 +214,16 @@ const lang = route.params.lang;
   height: 8px;
   background: rgb(34, 197, 94);
   border-radius: 50%;
+  /* انيميشن: نبض مستمر للنقطة الخضراء (الوظيفة الحالية) */
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
+/* ====================
+   انيميشن: نبض (تكبير وتصغير مع تلاشي)
+   الوظيفة: يخلق تأثير نبض حي للنقطة
+   المدة: 2 ثانية، يتكرر للأبد
+   الاستخدام: للإشارة إلى الوظيفة الحالية
+   ==================== */
 @keyframes pulse {
 
   0%,

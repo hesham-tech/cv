@@ -311,6 +311,7 @@ function sendItems() {
   display: flex;
   align-items: center;
   justify-content: center;
+  /* انيميشن: تكبير مع ارتداد عند ظهور رسالة النجاح */
   animation: scaleIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   box-shadow: var(--shadow-colored-lg);
 
@@ -319,6 +320,12 @@ function sendItems() {
   }
 }
 
+/* ====================
+   انيميشن: تكبير مع ارتداد
+   الوظيفة: يخلق تأثير ظهور ديناميكي بارتداد خفيف
+   المدة: 0.5 ثانية
+   الاستخدام: لأيقونة نجاح إرسال الرسالة
+   ==================== */
 @keyframes scaleIn {
   0% {
     transform: scale(0);

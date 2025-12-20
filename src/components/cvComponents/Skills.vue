@@ -131,6 +131,7 @@ function funSelectedSkill(skill) {
   text-align: center;
   cursor: pointer;
   transition: all var(--transition-base);
+  /* انيميشن: ظهور تدريجي للكروت بتأخير متتالي */
   animation: fadeInUp calc(0.1s * var(--index)) ease;
   position: relative;
 
@@ -139,6 +140,7 @@ function funSelectedSkill(skill) {
     box-shadow: var(--shadow-colored-lg);
 
     .skill-image-border {
+      /* انيميشن: دوران الحدود عند hover */
       animation: rotateGradient 2s linear infinite;
     }
   }
@@ -245,6 +247,12 @@ function funSelectedSkill(skill) {
   margin: 0;
 }
 
+/* ====================
+   انيميشن: دوران التدرج اللوني
+   الوظيفة: يدور الحدود المتدرجة 360 درجة
+   المدة: 2 ثانية، يتكرر للأبد
+   الاستخدام: لحدود كروت المهارات عند hover
+   ==================== */
 @keyframes rotateGradient {
   0% {
     transform: rotate(0deg);

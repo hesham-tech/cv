@@ -118,11 +118,15 @@ const lang = route.params.lang;
 
 .timeline-item-left .timeline-card {
   grid-column: 1;
+  /* انيميشن: دخول من اليسار */
+  /* ملاحظة: هذا الانيميشن معرف في modern-design.css */
   animation: slideInLeft 0.6s ease;
 }
 
 .timeline-item-right .timeline-card {
   grid-column: 3;
+  /* انيميشن: دخول من اليمين */
+  /* ملاحظة: هذا الانيميشن معرف في modern-design.css */
   animation: slideInRight 0.6s ease;
 }
 

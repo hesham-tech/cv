@@ -161,7 +161,8 @@ onMounted(() => {
   inset: -4px;
   background: linear-gradient(135deg, #a8edea, #fed6e3, #f093fb, #a8edea);
   border-radius: 50%;
-  animation: rotateGradient 10s linear infinite;
+  /* انيميشن: دوران الحدود المتدرجة حول صورة البروفايل */
+  // animation: rotateGradient 10s linear infinite;
 }
 
 .profile-image {
@@ -405,6 +406,12 @@ onMounted(() => {
 }
 
 /* Animations */
+/* ====================
+   انيميشن: تعويم (ارتفاع وانخفاض)
+   الوظيفة: حركة ناعمة للأعلى والأسفل لخلق حيوية
+   المدة: يتم تعريفه في العنصر المستخدم
+   ملاحظة: هذا الانيميشن غير مستخدم حالياً
+   ==================== */
 @keyframes float {
 
   0%,
@@ -417,6 +424,12 @@ onMounted(() => {
   }
 }
 
+/* ====================
+   انيميشن: دوران التدرج اللوني
+   الوظيفة: يدور الخلفية المتدرجة 360 درجة لخلق تأثير متحرك
+   المدة: 10 ثوان، يتكرر للأبد
+   الاستخدام: لحدود صورة البروفايل في الـ Sidebar
+   ==================== */
 @keyframes rotateGradient {
   0% {
     transform: rotate(0deg);

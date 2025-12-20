@@ -241,7 +241,8 @@ function setActiveNavItem() {
     const windowHeight = window.innerHeight;
 
     // تحديد الحد الأدنى للتمرير المطلوب لتفعيل القسم
-    const activateThreshold = sectionTop - windowHeight * 0.5;
+    // تغيير من 0.5 (منتصف الشاشة) إلى 0.1 (أعلى الشاشة)
+    const activateThreshold = sectionTop - windowHeight * 0.1;
 
     if (scrollPos >= activateThreshold && scrollPos < sectionTop + sectionHeight) {
       currentSection = section.id.slice(2);
@@ -321,12 +322,19 @@ meta:
 
 }
 
+/* طبقة overlay التي تظهر عند فتح القائمة الجانبية على الشاشات الصغيرة */
+/* تسمح بإغلاق القائمة عند النقر عليها */
+/* تأثير blur هادئ وبسيط - Glassmorphism */
 .mainOverlay {
-  background-color: #0000ff1c;
-  position: absolute;
+  background-color: rgba(255, 255, 255, 0.05); /* شفاف جداً مع لمسة بيضاء خفيفة */
+  backdrop-filter: blur(8px); /* تأثير blur هادئ */
+  -webkit-backdrop-filter: blur(2px); /* دعم Safari */
+  position: fixed;
   width: 100%;
   height: 100%;
   z-index: 99;
+  cursor: pointer;
+  transition: all 0.3s ease; /* انتقال سلس */
 }
 #h-main-menu {
   width: 100%;
