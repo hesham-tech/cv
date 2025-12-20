@@ -1,1 +1,0 @@
-import{al as o}from"./index-TKAKwIDP.js";const e=s=>{o.success(s,{theme:"colored",position:o.POSITION.TOP_LEFT})},t=s=>{o.error(s,{theme:"colored",position:o.POSITION.TOP_LEFT})};export{e as a,t as n};
