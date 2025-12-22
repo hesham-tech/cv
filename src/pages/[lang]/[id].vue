@@ -4,6 +4,17 @@
       direction: lang === 'en' ? 'ltr' : 'rtl',
     }"
   >
+    <!-- Edit Mode Toggle - يظهر فقط لصاحب السيرة الذاتية -->
+    <EditModeToggle v-if="isOwner" :show="getData" />
+
+    <!-- Toast Notifications -->
+    <ToastNotification
+      :show="toastState.show"
+      :message="toastState.message"
+      :type="toastState.type"
+      :duration="toastState.duration"
+      @close="hideToast"
+    />
     <v-dialog max-width="600" v-model="dialogNoteUser" persistent>
       <v-card class="my-10">
         <v-card-title class="text-center my-10">{{ route.params.id }} لا يوجد سيره زاتية لهاذا المستخدم </v-card-title>
@@ -65,7 +76,7 @@
             v-if="userStore.userAll.user.theme.hero?.enabled"
             ref="heroRef"
           >
-            <Hero />
+            <HeroWithEdit />
           </section>
           <div style="display: flex; flex-direction: column; justify-content: center" class="pa-4">
             <section
@@ -75,7 +86,7 @@
               id="h-about"
               ref="aboutRef"
             >
-              <About />
+              <AboutWithEdit />
             </section>
             <section
               class="h-skills section"
@@ -84,52 +95,47 @@
               id="h-skills"
               ref="skillsRef"
             >
-              <Skills />
+              <SkillsWithEdit />
             </section>
             <section
               class="h-academic section"
               :style="{ order: userStore.userAll.user.theme.academics?.order - 2 }"
-              v-if="userStore.userAll.user.theme.academics?.enabled"
               id="h-academic"
               ref="academicRef"
             >
-              <Academic />
+              <AcademicWithEdit />
             </section>
             <section
               class="h-experience section"
               :style="{ order: userStore.userAll.user.theme.experiences?.order - 2 }"
-              v-if="userStore.userAll.user.theme.experiences?.enabled"
               id="h-experience"
               ref="experienceRef"
             >
-              <Experience />
+              <ExperienceWithEdit />
             </section>
             <section
               :style="{ order: userStore.userAll.user.theme.work?.order - 2 }"
-              v-if="userStore.userAll.user.theme.work?.enabled"
               id="h-work"
               class="h-work section"
               ref="workRef"
             >
-              <Work />
+              <WorkWithEdit />
             </section>
             <section
               :style="{ order: userStore.userAll.user.theme.services?.order - 2 }"
-              v-if="userStore.userAll.user.theme.services?.enabled"
               id="h-services"
               class="h-services section"
               ref="servicesRef"
             >
-              <Services />
+              <ServicesWithEdit />
             </section>
             <section
               :style="{ order: userStore.userAll.user.theme.blog?.order - 2 }"
-              v-if="userStore.userAll.user.theme.blog?.enabled"
               id="h-blog"
               class="h-blog section"
               ref="blogRef"
             >
-              <Blog />
+              <BlogWithEdit />
             </section>
             <section
               :style="{ order: userStore.userAll.user.theme.contacts?.order - 2 }"
@@ -155,9 +161,22 @@ import 'aos/dist/aos.css';
 import { ref, onMounted, watch, computed } from 'vue';
 import { useUserStore } from '@/stores/user';
 import { useRoute } from 'vue-router';
+import { useToast } from '@/composables/useToast';
+import EditModeToggle from '@/components/edit/EditModeToggle.vue';
+import ToastNotification from '@/components/edit/ToastNotification.vue';
+import HeroWithEdit from '@/components/cvComponents/HeroWithEdit.vue';
+import SkillsWithEdit from '@/components/cvComponents/SkillsWithEdit.vue';
+import AboutWithEdit from '@/components/cvComponents/AboutWithEdit.vue';
+import AcademicWithEdit from '@/components/cvComponents/AcademicWithEdit.vue';
+import ExperienceWithEdit from '@/components/cvComponents/ExperienceWithEdit.vue';
+import WorkWithEdit from '@/components/cvComponents/WorkWithEdit.vue';
+import ServicesWithEdit from '@/components/cvComponents/ServicesWithEdit.vue';
+import BlogWithEdit from '@/components/cvComponents/BlogWithEdit.vue';
+
 const route = useRoute();
 const lang = route.params.lang;
 const userStore = useUserStore();
+const { toastState, hideToast } = useToast();
 const toggled = ref(true);
 const btnToggle = ref(true);
 const userAuthId = localStorage.user ? JSON.parse(localStorage.user).id : false;
@@ -172,6 +191,11 @@ const checkboxHent = ref(false);
 const dialogNoteUser = ref(false);
 const mediaQuery = window.matchMedia('(max-width: 768px)');
 const windowWidth = ref(window.innerWidth);
+
+// التحقق من أن المستخدم الحالي هو صاحب السيرة الذاتية
+const isOwner = computed(() => {
+  return userAuthId && userAuthId === userStore.userAll?.user?.id;
+});
 
 // Computed property للتحقق من حجم الشاشة وتطبيق margin
 const mainMarginStyle = computed(() => {

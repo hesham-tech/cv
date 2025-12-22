@@ -14,76 +14,113 @@
 
       <!-- Services Grid -->
       <div class="services-grid">
-        <div class="service-card glass-card">
-          <div class="service-icon" style="--icon-color: #667eea">
-            <span class="icon-emoji">💡</span>
+        <!-- Dynamic services from API -->
+        <div 
+          v-for="(service, index) in services" 
+          :key="service.id"
+          class="service-card glass-card"
+        >
+          <div class="service-icon" :style="`--icon-color: ${getServiceColor(index)}`">
+            <v-img
+              v-if="service.photos && service.photos.length > 0"
+              :src="service.photos[0]"
+              class="icon-image"
+              cover
+            />
+            <span v-else class="icon-emoji">{{ getServiceEmoji(index) }}</span>
           </div>
-          <h3 class="service-title">{{ lang === 'en' ? 'Innovative Ideas' : 'أفكار إبداعية' }}</h3>
+          <h3 class="service-title">{{ getServiceTitle(service) }}</h3>
           <p class="service-description">
-            {{ lang === 'en' ? 'Creative solutions to transform your vision into reality with cutting-edge technology' :
-              'حلول إبداعية لتحويل رؤيتك إلى واقع باستخدام أحدث التقنيات' }}
+            {{ getServiceDescription(service) }}
           </p>
         </div>
 
-        <div class="service-card glass-card">
-          <div class="service-icon" style="--icon-color: #764ba2">
-            <span class="icon-emoji">💻</span>
+        <!-- Fallback: show static services if no API data -->
+        <template v-if="services.length === 0">
+          <div class="service-card glass-card">
+            <div class="service-icon" style="--icon-color: #667eea">
+              <span class="icon-emoji">💡</span>
+            </div>
+            <h3 class="service-title">{{ lang === 'en' ? 'Innovative Ideas' : 'أفكار إبداعية' }}</h3>
+            <p class="service-description">
+              {{ lang === 'en' ? 'Creative solutions to transform your vision into reality with cutting-edge technology' :
+                'حلول إبداعية لتحويل رؤيتك إلى واقع باستخدام أحدث التقنيات' }}
+            </p>
           </div>
-          <h3 class="service-title">{{ lang === 'en' ? 'Software Development' : 'تطوير البرمجيات' }}</h3>
-          <p class="service-description">
-            {{ lang === 'en' ? 'Full-stack development with modern frameworks and best practices' : 'تطوير متكامل باستخدام أحدث الأطر والممارسات' }}
-          </p>
-        </div>
 
-        <div class="service-card glass-card">
-          <div class="service-icon" style="--icon-color: #f093fb">
-            <span class="icon-emoji">📱</span>
+          <div class="service-card glass-card">
+            <div class="service-icon" style="--icon-color: #764ba2">
+              <span class="icon-emoji">💻</span>
+            </div>
+            <h3 class="service-title">{{ lang === 'en' ? 'Software Development' : 'تطوير البرمجيات' }}</h3>
+            <p class="service-description">
+              {{ lang === 'en' ? 'Full-stack development with modern frameworks and best practices' : 'تطوير متكامل باستخدام أحدث الأطر والممارسات' }}
+            </p>
           </div>
-          <h3 class="service-title">{{ lang === 'en' ? 'Mobile Applications' : 'تطبيقات الجوال' }}</h3>
-          <p class="service-description">
-            {{ lang === 'en' ? 'Cross-platform mobile apps with native performance and beautiful UI' : 'تطبيقات جوال متعددة المنصات بأداء وتصميم ممتاز' }}
-          </p>
-        </div>
 
-        <div class="service-card glass-card">
-          <div class="service-icon" style="--icon-color: #4facfe">
-            <span class="icon-emoji">🎨</span>
+          <div class="service-card glass-card">
+            <div class="service-icon" style="--icon-color: #f093fb">
+              <span class="icon-emoji">📱</span>
+            </div>
+            <h3 class="service-title">{{ lang === 'en' ? 'Mobile Applications' : 'تطبيقات الجوال' }}</h3>
+            <p class="service-description">
+              {{ lang === 'en' ? 'Cross-platform mobile apps with native performance and beautiful UI' : 'تطبيقات جوال متعددة المنصات بأداء وتصميم ممتاز' }}
+            </p>
           </div>
-          <h3 class="service-title">{{ lang === 'en' ? 'UI/UX Design' : 'تصميم واجهات المستخدم' }}</h3>
-          <p class="service-description">
-            {{ lang === 'en' ? 'User-centered design that creates engaging and intuitive experiences' : 'تصميم يركز على المستخدم لتجربة جذابة وسهلة' }}
-          </p>
-        </div>
 
-        <div class="service-card glass-card">
-          <div class="service-icon" style="--icon-color: #54a0ff">
-            <span class="icon-emoji">☁️</span>
+          <div class="service-card glass-card">
+            <div class="service-icon" style="--icon-color: #4facfe">
+              <span class="icon-emoji">🎨</span>
+            </div>
+            <h3 class="service-title">{{ lang === 'en' ? 'UI/UX Design' : 'تصميم واجهات المستخدم' }}</h3>
+            <p class="service-description">
+              {{ lang === 'en' ? 'User-centered design that creates engaging and intuitive experiences' : 'تصميم يركز على المستخدم لتجربة جذابة وسهلة' }}
+            </p>
           </div>
-          <h3 class="service-title">{{ lang === 'en' ? 'Cloud Solutions' : 'الحلول السحابية' }}</h3>
-          <p class="service-description">
-            {{ lang === 'en' ? 'Scalable cloud infrastructure and deployment strategies' : 'بنية تحتية سحابية قابلة للتوسع واستراتيجيات نشر' }}
-          </p>
-        </div>
-
-        <div class="service-card glass-card">
-          <div class="service-icon" style="--icon-color: #48dbfb">
-            <span class="icon-emoji">🔧</span>
-          </div>
-          <h3 class="service-title">{{ lang === 'en' ? 'Consulting' : 'الاستشارات' }}</h3>
-          <p class="service-description">
-            {{ lang === 'en' ? 'Technical consulting and strategic planning for your projects' : 'استشارات تقنية وتخطيط استراتيجي لمشاريعك' }}
-          </p>
-        </div>
+        </template>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { useRoute } from 'vue-router';
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+import { useUserStore } from '@/stores/user'
 
-const route = useRoute();
-const lang = route.params.lang;
+const route = useRoute()
+const lang = route.params.lang
+const userStore = useUserStore()
+
+// Get services from API
+const services = computed(() => userStore.userAll?.services || [])
+
+// Helper functions
+const getServiceTitle = (service) => {
+  try {
+    const title = typeof service.title === 'string' ? JSON.parse(service.title) : service.title
+    return lang === 'ar' ? title.ar : title.en
+  } catch (e) {
+    return service.title
+  }
+}
+
+const getServiceDescription = (service) => {
+  try {
+    const description = typeof service.description === 'string' ? JSON.parse(service.description) : service.description
+    return lang === 'ar' ? (description.ar || '') : (description.en || '')
+  } catch (e) {
+    return service.description || ''
+  }
+}
+
+// Predefined colors for services
+const serviceColors = ['#667eea', '#764ba2', '#f093fb', '#4facfe', '#54a0ff', '#48dbfb', '#ff6b6b', '#ee5a6f']
+const getServiceColor = (index) => serviceColors[index % serviceColors.length]
+
+// Predefined emojis for services
+const serviceEmojis = ['💡', '💻', '📱', '🎨', '☁️', '🔧', '🚀', '⚡']
+const getServiceEmoji = (index) => serviceEmojis[index % serviceEmojis.length]
 </script>
 
 <style lang="scss" scoped>
@@ -172,10 +209,17 @@ const lang = route.params.lang;
   justify-content: center;
   transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
 
   .icon-emoji {
     font-size: 3rem;
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  }
+
+  .icon-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
   }
 }
 

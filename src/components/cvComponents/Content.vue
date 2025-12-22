@@ -66,6 +66,11 @@
               <p class="info-text">{{ userStore.userAll.user.address[lang] }}</p>
             </div>
           </div>
+          
+          <!-- Social Links integrated here -->
+          <div class="social-section mt-6">
+            <SocialWithEdit />
+          </div>
         </div>
 
         <!-- Contact Form -->
@@ -107,6 +112,7 @@ import axios from 'axios';
 import { notifyError } from '@/Service/notifyService';
 import { useRoute } from 'vue-router';
 import { useUserStore } from '@/stores/user';
+import SocialWithEdit from './SocialWithEdit.vue';
 
 const userStore = useUserStore();
 const route = useRoute();
@@ -251,6 +257,29 @@ function sendItems() {
 
 .info-link:hover {
   color: var(--primary-600);
+}
+
+/* Social Section */
+.social-section {
+  padding-top: var(--space-6);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  
+  :deep(.social-wrapper) {
+    padding: 0;
+  }
+  
+  :deep(.socials-display) {
+    gap: 12px;
+  }
+  
+  :deep(.contact-item) {
+    background: rgba(102, 126, 234, 0.08);
+    padding: 10px 14px;
+  }
+  
+  :deep(.social-links-list) {
+    margin-top: 12px;
+  }
 }
 
 /* Contact Form */
