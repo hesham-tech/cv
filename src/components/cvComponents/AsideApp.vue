@@ -79,6 +79,17 @@
       </ul>
     </nav>
 
+          <div v-if="userStore.userAll.user.theme.socials" class="box-socials">
+        <div v-if="userStore.userAll.user.theme.socials?.aside?.enabled" class="box-socials">
+          <div v-for="(social, i) in userStore.userAll.socials" :key="i">
+            <!-- <p>{{ social.icon }}</p> -->
+            <a :href="social.url" target="_blank">
+              <v-icon :color="social.icon.color" :icon="social.icon.icon"></v-icon>
+            </a>
+          </div>
+        </div>
+      </div>
+
     <!-- Footer -->
     <div class="aside-footer">
       <!-- Social Icons -->
