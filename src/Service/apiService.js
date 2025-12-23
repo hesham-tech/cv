@@ -31,18 +31,38 @@ export const fetchItem = async (apiEndpoint, id) => {
 };
 
 export const saveItems = async (apiEndpoint, data, id = false) => {
-  const apiEndpointIfId = id ? `${apiEndpoint}/${id}` : apiEndpoint;
   userStore.loadengApi = true;
   try {
-    const response = await axios.post(apiEndpointIfId, data);
+    let response;
+
+    if (id) {
+      // التحديث: استخدام PUT
+      // Laravel يتطلب _method=put مع FormData
+      if (data instanceof FormData) {
+        data.append('_method', 'put');
+        response = await axios.post(`${apiEndpoint}/${id}`, data);
+      } else {
+        response = await axios.put(`${apiEndpoint}/${id}`, data);
+      }
+      console.log(`update ${apiEndpoint}/${id}`, response.data);
+    } else {
+      // الإنشاء: استخدام POST
+      response = await axios.post(apiEndpoint, data);
+      console.log(`create ${apiEndpoint}`, response.data);
+    }
+
     userStore.loadengApi = false;
-    console.log(id ? `update ${apiEndpoint}` : `save ${apiEndpoint}`, response.data);
-    notifySuccess(` تم ${id ? 'التعديل' : 'الحفظ'}`);
+    notifySuccess(`تم ${id ? 'التعديل' : 'الحفظ'} بنجاح`);
     return response.data;
   } catch (error) {
     userStore.loadengApi = false;
-    console.log(`Error Save ${apiEndpoint}`, error);
-    notifyError(error.response.data.message);
+    console.error(`Error ${id ? 'updating' : 'creating'} ${apiEndpoint}`, error);
+
+    // معالجة أفضل للأخطاء
+    const errorMessage = error.response?.data?.message ||
+      error.response?.data?.error ||
+      'حدث خطأ أثناء العملية';
+    notifyError(errorMessage);
     throw error;
   }
 };
